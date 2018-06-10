@@ -13,8 +13,13 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
+  let data = {};
+  data.ipaddress = request.headers['x-forwarded-for'].split(",")[0];
+  data.language = request.headers['accept-language'];
+  data.software = request.headers['user-agent'];
   console.log(request.headers);
-  response.sendFile(__dirname + '/views/index.html');
+  console.log(data);
+  response.send(data);
 });
 
 // listen for requests :)
